@@ -58,8 +58,9 @@ public interface IndexList<T> {
     // documentation for ArrayList in the official Java web page.
 	Object[] toArray(); 
 	<T1> T1[] toArray(T1[] array);
+	
 
 	
-	// int capacity(); 
+	 int capacity(); 
 
 }

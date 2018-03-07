@@ -3,9 +3,9 @@ package arrayIndexList;
 import indexList.IndexList;
 
 public class ArrayIndexList<E> implements IndexList<E> {
-	private static final int INITCAP = 5; 
-	private static final int CAPTOAR = 5; 
-	private static final int MAXEMPTYPOS = 10; 
+	private static final int INITCAP = 1; 
+	private static final int CAPTOAR = 1; 
+	private static final int MAXEMPTYPOS = 2; 
 	private E[] element; 
 	private int size; 
 
@@ -18,29 +18,38 @@ public class ArrayIndexList<E> implements IndexList<E> {
 	public void add(int index, E e) throws IndexOutOfBoundsException {
 		
 		if(index>size || index<0){
-			throw new IndexOutOfBoundsException("add: Invalid index = " +index);
+			throw new IndexOutOfBoundsException("add: invalid index = " +index);
 		}
 	
-//		element[index] = e;
+		if(element.length==size){
+			this.changeCapacity(CAPTOAR);
+			
+		}
+		moveDataOnePositionTR(index, size()-1);
+		element[index]=e;
 		
 		size++;
 	}
 
 
 	public void add(E e) {
-		this.changeCapacity(1);
-		//element[size] = e;
+		if(element.length==size){
+			this.changeCapacity(CAPTOAR);
+			
+		}
+		
+		 element[size] = e;
 		
 		size++;
 	}
 
 
 	public E get(int index) throws IndexOutOfBoundsException {
-		if(index>size || index<0){
-			throw new IndexOutOfBoundsException("get: Invalid index = " +index);
+		if(index>size-1 || index<0){
+			throw new IndexOutOfBoundsException("get: invalid index = " +index);
 		}
 		
-		return null; 
+		return element[index]; 
 	}
 
 
@@ -50,22 +59,38 @@ public class ArrayIndexList<E> implements IndexList<E> {
 
 
 	public E remove(int index) throws IndexOutOfBoundsException {
-		if(index<0 || index>size){
-			throw new IndexOutOfBoundsException("remove: Invalid index = " +index);
+		if(index<0 || index>=size){
+			throw new IndexOutOfBoundsException("remove: invalid index = " +index);
 		}
 		
+		if((element.length - size) >= MAXEMPTYPOS)
+			changeCapacity(-CAPTOAR);
+		E etr = element[index];
+		moveDataOnePositionTL(index+1, size-1);	
+		element[size-1] = null;
 		size--;
-		return null;
+		return etr;
+		
+
+		
 	}
 
 
 	public E set(int index, E e) throws IndexOutOfBoundsException {
+		
+		
+		
 		if(index<0 || index>size){
-			throw new IndexOutOfBoundsException("set: Invalid index = " +index);
+			throw new IndexOutOfBoundsException("set: invalid index = " +index);
 		}
 		
 		
-		return null;
+		E etr = element[index];
+		element[index]= e;
+		
+		
+		
+		return etr;
 	}
 
 
@@ -73,6 +98,9 @@ public class ArrayIndexList<E> implements IndexList<E> {
 		return size;
 	}	
 	
+	public int capacity() { 
+		 return element.length; 
+	}
 	
 	
 	// private methods  -- YOU CAN NOT MODIFY ANY OF THE FOLLOWING
