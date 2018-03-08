@@ -1,5 +1,7 @@
 package arrayIndexList;
 
+import java.lang.reflect.Array;
+
 import indexList.IndexList;
 
 public class ArrayIndexList<E> implements IndexList<E> {
@@ -138,15 +140,33 @@ public class ArrayIndexList<E> implements IndexList<E> {
 
 	// The following two methods are to be implemented as part of an exercise
 	public Object[] toArray() {
-		// TODO es in Exercise 3
-		return null;
+		Object[] s = new Object[element.length];
+		
+		for(int i=0; i<this.size(); i++){
+			s[i]= element[i];
+		}
+		
+		return s;
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T1> T1[] toArray(T1[] array) {
-		// TODO as in Exercise 3
-		return null;
+		if (array.length<this.size()) {
+			array = (T1[]) Array.newInstance(array.getClass().getComponentType(),this.size());
+		}
+		else if(array.length> this.size()){
+			for (int index = this.size(); index < array.length; index++) {
+				array[index] = null;
+			}
+		}
+			for (int j = 0; j < this.size(); j++) {
+					array[j] = (T1) element[j];
+			}
+			
+		
+		return array;
 	}
 
 }
