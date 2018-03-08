@@ -150,20 +150,24 @@ public class ArrayIndexList<E> implements IndexList<E> {
 	}
 
 
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T1> T1[] toArray(T1[] array) {
 		if (array.length<this.size()) {
 			array = (T1[]) Array.newInstance(array.getClass().getComponentType(),this.size());
 		}
+		
 		else if(array.length> this.size()){
 			for (int index = this.size(); index < array.length; index++) {
 				array[index] = null;
 			}
 		}
-			for (int j = 0; j < this.size(); j++) {
-					array[j] = (T1) element[j];
-			}
+
+		
+		for (int j = 0; j < this.size(); j++) {
+				array[j] = (T1) element[j];
+		}
 			
 		
 		return array;
